@@ -26,8 +26,11 @@ finished_files_dir = "finished_files"
 chunks_dir = os.path.join(finished_files_dir, "chunked")
 
 # These are the number of .story files we expect there to be in cnn_stories_dir and dm_stories_dir
-num_expected_cnn_stories = 92579
-num_expected_dm_stories = 219506
+#num_expected_cnn_stories = 92579
+#num_expected_dm_stories = 219506
+
+num_expected_cnn_stories = 187
+num_expected_dm_stories = 294
 
 VOCAB_SIZE = 200000
 CHUNK_SIZE = 1000 # num examples per chunk, for the chunked data
