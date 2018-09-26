@@ -37,6 +37,7 @@ chunks_dir = os.path.join(finished_files_dir, "chunked")
 #num_expected_dm_stories = 481
 
 num_expected_stories = 0 #initialize
+story_type = 'train.bin' #Initialize
 
 VOCAB_SIZE = 200000
 CHUNK_SIZE = 1000 # num examples per chunk, for the chunked data
@@ -68,7 +69,7 @@ def chunk_all():
     os.mkdir(chunks_dir)
   # Chunk the data
   #for set_name in ['train', 'val', 'test']:
-  for set_name in ['data']:
+  for set_name in [story_type]:
     print "Splitting %s data into chunks..." % set_name
     chunk_file(set_name)
   print "Saved chunked data in %s" % chunks_dir
@@ -231,11 +232,12 @@ def check_num_stories(stories_dir, num_expected):
 
 
 if __name__ == '__main__':
-  if len(sys.argv) != 2:
-    print "USAGE: python make_datafiles.py <data_stories_dir>"
+  if len(sys.argv) != 3:
+    print "USAGE: python make_datafiles.py <data_stories_dir> <story type: train.bin, test.bin, val.bin>"
     sys.exit()
  
   stories_dir = sys.argv[1]
+  story_type = sys.argv[2]
 
   #cnn_stories_dir = sys.argv[1]
   #dm_stories_dir = sys.argv[2]
@@ -267,7 +269,7 @@ if __name__ == '__main__':
   #write_to_bin(all_val_urls, os.path.join(finished_files_dir, "val.bin"))
   #write_to_bin(all_train_urls, os.path.join(finished_files_dir, "train.bin"), makevocab=True)
 
-  write_to_bin(all_urls, os.path.join(finished_files_dir, "data.bin"),makevocab=True) #all purpose write passed in data dir to .bin with a vocab file
+  write_to_bin(all_urls, os.path.join(finished_files_dir,story_type),makevocab=True) #all purpose write passed in data dir to .bin with a vocab file
 
   # Chunk the data. This splits each of train.bin, val.bin and test.bin into smaller chunks, each containing e.g. 1000 examples, and saves them in finished_files/chunks
   chunk_all()
