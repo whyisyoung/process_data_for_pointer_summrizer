@@ -38,7 +38,7 @@ The run process is in two parts.
 
 Part 1, run
 ```
-python json_to_hash.py  -f < .json file> -o <output dir>
+python json_to_hash.py  -f <.json file> -o <output dir>
 ```
 
 This takes in a JSON file (-f) assuming there are tags “URL” and article body “Sentences” in the JSON.
@@ -52,9 +52,11 @@ Part 2, run
 ```
 python make_test_datafiles.py <data_stories_dir> <story type: train.bin, test.bin, or val.bin>
 ```
+NOTE`<output dir>` and `<data_stories_dir>` should be the same.
 
 This takes in a directory <data_stories_dir> which contains the articles in <hash>.story format and creates a .bin with the provided name: train.bin, test.bin, or val.bin.
 Tokenized stories are written to the directory: `tokenized_stories`.
 NOTE: If the tokenized_stories directory exists, it must be empty before running this command!
+
 Additionally, a `vocab` file is created from the training data. This is also placed in `finished_files`.
 Lastly, <story type: train.bin, test.bin, or val.bin> will be split into chunks of 1000 examples per chunk. These chunked files will be saved in `finished_files/chunked` as e.g. `train_000.bin`, `train_001.bin`, ..., `train_287.bin`. This should take a few seconds. You can use either the single files or the chunked files as input to the Tensorflow code (see considerations [here](https://github.com/abisee/cnn-dailymail/issues/3)).
