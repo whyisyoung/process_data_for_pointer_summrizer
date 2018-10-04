@@ -46,6 +46,12 @@ CHUNK_SIZE = 1000 # num examples per chunk, for the chunked data
 
 
 def chunk_file(set_name):
+
+  #get the file name without the extension since set_name will be <file>.bin, we want just <file>
+  setNameList = set_name.split('.')
+  set_name = setNameList[0]
+
+
   in_file = 'finished_files/%s.bin' % set_name
   reader = open(in_file, "rb")
   chunk = 0
