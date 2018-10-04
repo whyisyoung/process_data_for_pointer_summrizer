@@ -20,7 +20,8 @@ SENTENCE_END = '</s>'
 #all_val_urls = "url_lists/all_val.txt"
 #all_test_urls = "url_lists/all_test.txt"
 
-all_urls = "url_lists/all_urls.txt"
+#all_urls = "url_lists/all_urls.txt"
+all_urls = "all_urls.txt" #This should be in the local directory
 
 tokenized_stories_dir = "tokenized_stories"
 
@@ -40,10 +41,17 @@ num_expected_stories = 0 #initialize
 story_type = 'train.bin' #Initialize
 
 VOCAB_SIZE = 200000
+#VOCAB_SIZE = 200
 CHUNK_SIZE = 1000 # num examples per chunk, for the chunked data
 
 
 def chunk_file(set_name):
+
+  #get the file name without the extension since set_name will be <file>.bin, we want just <file>
+  setNameList = set_name.split('.')
+  set_name = setNameList[0]
+
+
   in_file = 'finished_files/%s.bin' % set_name
   reader = open(in_file, "rb")
   chunk = 0
