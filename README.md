@@ -34,14 +34,29 @@ text
 PTBTokenizer tokenized 5 tokens at 68.97 tokens per second.
 ```
 ## 3. Process into .bin and vocab files
-Run
-```
-python make_datafiles.py /path/to/cnn/stories /path/to/dailymail/stories
-```
-replacing `/path/to/cnn/stories` with the path to where you saved the `cnn/stories` directory that you downloaded; similarly for `dailymail/stories`.
+The run process is in two parts.
 
-This script will do several things:
-* The directories `cnn_stories_tokenized` and `dm_stories_tokenized` will be created and filled with tokenized versions of `cnn/stories` and `dailymail/stories`. This may take some time. ***Note**: you may see several `Untokenizable:` warnings from Stanford Tokenizer. These seem to be related to Unicode characters in the data; so far it seems OK to ignore them.*
-* For each of the url lists `all_train.txt`, `all_val.txt` and `all_test.txt`, the corresponding tokenized stories are read from file, lowercased and written to serialized binary files `train.bin`, `val.bin` and `test.bin`. These will be placed in the newly-created `finished_files` directory. This may take some time.
-* Additionally, a `vocab` file is created from the training data. This is also placed in `finished_files`.
-* Lastly, `train.bin`, `val.bin` and `test.bin` will be split into chunks of 1000 examples per chunk. These chunked files will be saved in `finished_files/chunked` as e.g. `train_000.bin`, `train_001.bin`, ..., `train_287.bin`. This should take a few seconds. You can use either the single files or the chunked files as input to the Tensorflow code (see considerations [here](https://github.com/abisee/cnn-dailymail/issues/3)).
+Part 1, run
+```
+python json_to_hash.py  -f <.json file> -o <output dir>
+```
+
+This takes in a JSON file (-f) assuming there are tags “URL” and article body “Sentences” in the JSON.
+For each URL, a unique hash is made from the URL. 
+For the respective article with that URL, makes a file: <hash>.story
+These .story files are written to the output directory (-o)
+All the URLs are written to the file: all_urls.txt, one per line.
+
+Part 2, run
+
+```
+python make_test_datafiles.py <data_stories_dir> <story type: train.bin, test.bin, or val.bin>
+```
+NOTE`<output dir>` and `<data_stories_dir>` should be the same.
+
+This takes in a directory <data_stories_dir> which contains the articles in <hash>.story format and creates a .bin with the provided name: train.bin, test.bin, or val.bin.
+Tokenized stories are written to the directory: `tokenized_stories`.
+NOTE: If the tokenized_stories directory exists, it must be empty before running this command!
+
+Additionally, a `vocab` file is created from the training data. This is also placed in `finished_files`.
+Lastly, <story type: train.bin, test.bin, or val.bin> will be split into chunks of 1000 examples per chunk. These chunked files will be saved in `finished_files/chunked` as e.g. `train_000.bin`, `train_001.bin`, ..., `train_287.bin`. This should take a few seconds. You can use either the single files or the chunked files as input to the Tensorflow code (see considerations [here](https://github.com/abisee/cnn-dailymail/issues/3)).
