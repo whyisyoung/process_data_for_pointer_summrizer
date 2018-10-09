@@ -11,43 +11,33 @@ def hashhex(s):
   return h.hexdigest()
 
 def processJSON(jsonFile,outputDir):
-    #FILE = open(jsonFile,'r')
-    
-    #lines = FILE.readlines()
-    
-    #data = json.load(lines[0])
-    
-    #with open(jsonFile) as f:
-    #    data = json.load(f)
 
-#   url_dir = "url_lists"
-
+    #Make sure there is an output directory
     if not os.path.exists(outputDir): os.makedirs(outputDir)
     
     URL_FILE = open('all_urls.txt','w')
     
+    #go through the JSON and pull each entry into separate line
     lines = []
     for line in open(jsonFile,'r'):
         lines.append(json.loads(line))
     
     #at this point each line is a json dictionary for each entry in the json file
-    
-    #import pdb
-    #pdb.set_trace()
-
+   
     for line in lines:
         
+        #define here for URL and article text what the JSON dictionary keys are
         url = line['URL']
         #url = line['URL_s']
+        #url = line['originalUrl']
+
         sentences = line['Sentences']
         #sentences = line['Sentences_t']
-
-        #print url
+        #sentences = line['mergedsent']
         
         h = hashhex(url)
-        #print h
         
-        fileName = outputDir + '/' + h+'.story'
+        fileName = outputDir + '/' + h+'.story' #create the. story file version of the article
         FILE = open(fileName,'w')
         FILE.write(sentences)
         FILE.close()
@@ -62,7 +52,6 @@ if __name__ == '__main__':
 	print
 	
 	try:
-	   #opts, args = getopt.getopt(sys.argv,"hi:o:",["ifile=","ofile="])
 	   opts, args = getopt.getopt(sys.argv[1:],"f:h:o:")
 	except getopt.GetoptError:
 		
@@ -74,8 +63,7 @@ if __name__ == '__main__':
 		print (args)
 		
 		print ("Incorrect usage of command line: ")
-		print ("python html_parser.py -d <root directory name> -r <remove flag: True or False>")
-		print ('python html_parser.py -f <file name> -o <output directory> -r <remove flag: True or False>')
+		print ('python json_to_hash.py -f <file name> -o <output directory>')
 	   
 	  
 	   
@@ -89,10 +77,8 @@ if __name__ == '__main__':
 	for opt, arg in opts:
 		print (opt,'\t',arg)
 		if opt == '-h':
-		   print ('python html_parser.py -d <root directory name> -r <remove flag: True or False>')
-		   print ('python html_parser.py -f <file name> -o <output directory>  -r <remove flag: True or False>')
+		   print ('python json_to_hash.py -f <file name> -o <output directory>')
 		   sys.exit()
-		#set insertion flag, i.e., action to perform is inserting a pattern into a DB
 		elif opt in ("-f"):
 		   jsonFile = arg
 		elif opt in ("-o"):
