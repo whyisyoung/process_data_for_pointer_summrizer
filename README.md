@@ -44,13 +44,13 @@ python json_to_hash.py  -f <.json file> -o <output dir>
 This takes in a JSON file (-f) assuming there are tags “URL” and article body “Sentences” in the JSON.
 For each URL, a unique hash is made from the URL. 
 For the respective article with that URL, makes a file: <hash>.story
-These .story files are written to the output directory (-o)
+These .story files are written to the output directory (-o).
 All the URLs are written to the file: all_urls.txt, one per line.
 
 Part 2, run
 
 ```
-python make_test_datafiles.py <data_stories_dir> <story type: train.bin, test.bin, or val.bin>
+python make_datafiles.py <data_stories_dir> <story type: train.bin, test.bin, or val.bin>
 ```
 NOTE`<output dir>` and `<data_stories_dir>` should be the same.
 
