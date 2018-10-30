@@ -58,5 +58,7 @@ This takes in a directory <data_stories_dir> which contains the articles in <has
 Tokenized stories are written to the directory: `tokenized_stories`.
 NOTE: If the tokenized_stories directory exists, it must be empty before running this command!
 
-Additionally, a `vocab` file is created from the training data. This is also placed in `finished_files`.
+Additionally a `vocab` file is created from the training data. This is also placed in `finished_files`. NOTE: If you are using the pretrained model linked from [here](https://github.com/chmille3/pointer-generator), use the vocab file from Option 1 [here](https://github.com/chmille3/process_data_for_pointer_summrizer). You will want the finished_files link, download the zip, and use the vocab file from there.
+
+
 Lastly, <story type: train.bin, test.bin, or val.bin> will be split into chunks of 1000 examples per chunk. These chunked files will be saved in `finished_files/chunked` as e.g. `train_000.bin`, `train_001.bin`, ..., `train_287.bin`. This should take a few seconds. You can use either the single files or the chunked files as input to the Tensorflow code (see considerations [here](https://github.com/abisee/cnn-dailymail/issues/3)).
